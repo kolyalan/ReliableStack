@@ -6,7 +6,7 @@ FILES := main.cpp Stack.hpp StackLib.hpp logs.hpp templates.hpp
 all: main
 
 main: $(FILES) 
-	 $(CC) $(CFLAGS) -D DEBUG_LEVEL=0 main.cpp -o main
+	 $(CC) $(CFLAGS) -D NDEBUG -D DEBUG_LEVEL=0 main.cpp -o main
 
 debug-dump: $(FILES)
 	 $(CC) $(CFLAGS) -g -D DEBUG_LEVEL=1 main.cpp -o debug-dump

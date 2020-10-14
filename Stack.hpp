@@ -134,7 +134,7 @@ int stack_fail(struct TEMPLATE(stack,T) *stack) {
 inline bool stack_ok(struct TEMPLATE(stack, T) *stack) {
     return !stack_fail(stack);
 }
-
+#if DEBUG_LEVEL >= DUMP_LEVEL
 ///-----------------------------------------------------------------------------------------
 /// Prints a thorough dump of struct stack_T
 ///-----------------------------------------------------------------------------------------
@@ -182,9 +182,8 @@ void stack_dump(struct TEMPLATE(stack,T) *stack) {
     log_printf("        cuckoo_high = %llx (standard = %llx)\n", get_buf_cuckoo_high(stack), cuckoo_standard);
     log_printf("}\n");
 #endif
-    
-    
 }
+#endif
 
 ///---------------------------------------------------------------------------------------------------
 /// Allocates stack buffer as follows
@@ -283,10 +282,12 @@ void stack_init_internal(struct TEMPLATE(stack,T) *stack, size_t capacity = 100)
 }
 
 void stack_destruct(struct TEMPLATE(stack,T) *stack) {
+#if DEBUG_LEVEL >= DUMP_LEVEL
     if (!stack_ok(stack)) {
         stack_dump(stack);
         assert(!"OK before destruction");
     }
+#endif
     if (stack->ptr != NULL) {
         free(find_alloc_address(stack->ptr));
     }
